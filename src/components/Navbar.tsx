@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Compass } from 'lucide-react';
+import { Menu, X, Compass, ShoppingCart, User } from 'lucide-react';
+import { useCart } from '../contexts/CartContext';
+import { useAuth } from '../contexts/AuthContext';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { items } = useCart();
+  const { isAuthenticated, logout } = useAuth();
+
+  const cartItemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <nav className="bg-white shadow-lg fixed w-full z-50">
@@ -12,7 +18,7 @@ function Navbar() {
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
               <Compass className="h-8 w-8 text-green-600" />
-              <span className="font-bold text-xl text-gray-800">Rubaba Adventure</span>
+              <span className="font-bold text-xl text-gray-800">RubabaAdventures</span>
             </Link>
           </div>
 
@@ -20,10 +26,32 @@ function Navbar() {
           <div className="hidden md:flex items-center space-x-8">
             <NavLink to="/adventures">Adventures</NavLink>
             <NavLink to="/accommodation">Accommodation</NavLink>
-            <NavLink to="/booking/new">Book Now</NavLink>
-            <button className="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-colors">
-              Sign In
-            </button>
+            <NavLink to="/shop">Shop</NavLink>
+            <NavLink to="/gallery">Gallery</NavLink>
+            {isAuthenticated ? (
+              <>
+                <NavLink to="/admin">Dashboard</NavLink>
+                <button
+                  onClick={logout}
+                  className="text-gray-600 hover:text-green-600 px-3 py-2 text-sm font-medium transition-colors"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <NavLink to="/admin/login" className="flex items-center space-x-1">
+                <User className="h-4 w-4" />
+                <span>Login</span>
+              </NavLink>
+            )}
+            <Link to="/cart" className="relative">
+              <ShoppingCart className="h-6 w-6 text-gray-600 hover:text-green-600" />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartItemCount}
+                </span>
+              )}
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -44,10 +72,27 @@ function Navbar() {
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <MobileNavLink to="/adventures">Adventures</MobileNavLink>
             <MobileNavLink to="/accommodation">Accommodation</MobileNavLink>
-            <MobileNavLink to="/booking/new">Book Now</MobileNavLink>
-            <button className="w-full text-left block px-3 py-2 text-base font-medium text-white bg-green-600 rounded-md">
-              Sign In
-            </button>
+            <MobileNavLink to="/shop">Shop</MobileNavLink>
+            <MobileNavLink to="/gallery">Gallery</MobileNavLink>
+            {isAuthenticated ? (
+              <>
+                <MobileNavLink to="/admin">Dashboard</MobileNavLink>
+                <button
+                  onClick={logout}
+                  className="w-full text-left px-3 py-2 text-base font-medium text-gray-600 hover:text-green-600 hover:bg-gray-50 rounded-md"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <MobileNavLink to="/admin/login">
+                <div className="flex items-center space-x-2">
+                  <User className="h-4 w-4" />
+                  <span>Login</span>
+                </div>
+              </MobileNavLink>
+            )}
+            <MobileNavLink to="/cart">Cart ({cartItemCount})</MobileNavLink>
           </div>
         </div>
       )}
@@ -55,11 +100,11 @@ function Navbar() {
   );
 }
 
-function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
+function NavLink({ to, children, className = '' }: { to: string; children: React.ReactNode; className?: string }) {
   return (
     <Link
       to={to}
-      className="text-gray-600 hover:text-green-600 px-3 py-2 text-sm font-medium transition-colors"
+      className={`text-gray-600 hover:text-green-600 px-3 py-2 text-sm font-medium transition-colors ${className}`}
     >
       {children}
     </Link>
