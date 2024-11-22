@@ -27,7 +27,7 @@ function Footer() {
               <FooterLink to="/adventures">Adventures</FooterLink>
               <FooterLink to="/accommodation">Accommodation</FooterLink>
               <FooterLink to="/about">About Us</FooterLink>
-              <FooterLink to="/contact">Contact</FooterLink>
+              <FooterLink to="/cart">Contact</FooterLink>
             </ul>
           </div>
 
