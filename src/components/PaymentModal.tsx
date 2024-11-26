@@ -141,4 +141,8 @@ export function PaymentModal({ amount, onClose, onSuccess }: PaymentModalProps) 
       </div>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9c15c56387fc6ad0a2bbb367094caaa28346cc51
