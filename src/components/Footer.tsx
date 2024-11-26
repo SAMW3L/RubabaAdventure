@@ -63,14 +63,8 @@ function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-<<<<<<< HEAD
           <p>&copy; {new Date().getFullYear()} Rubaba Adventure. All rights reserved.
           <p> Designed by SAMUEL (0613004338)</p> 
-          </p>
-=======
-          <p>&copy; {new Date().getFullYear()} Rubaba Adventure. All rights reserved.</p>
-          <p> Designed by SAMUEL (0613004338)</p>
->>>>>>> 9c15c56387fc6ad0a2bbb367094caaa28346cc51
         </div>
       </div>
     </footer>
