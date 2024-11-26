@@ -56,10 +56,10 @@ const About: React.FC = () => {
 
       <footer style={{ textAlign: 'center', marginTop: '50px' }}>
         <p style={{ fontSize: '1rem', color: '#555' }}>
-          <strong>Contact Us:</strong> info@wildernessescape.com | +123 456 7890
+          <strong>Contact Us:</strong> info@rubabaadventures.com | +2557 000 0000
         </p>
         <p style={{ fontSize: '0.9rem', color: '#888' }}>
-          © 2024 Wilderness Escape Co. All rights reserved.
+          © 2024 Rubaba Adventure Co. All rights reserved.
         </p>
       </footer>
     </div>

@@ -71,19 +71,19 @@ function About() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <TeamMember 
               image="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80"
-              name="John Doe"
+              name="Enock Rubaba"
               position="Founder & CEO"
               bio="Adventure enthusiast with 15+ years of experience in expedition planning"
             />
             <TeamMember 
               image="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80"
-              name="Jane Smith"
+              name="Catarina Rubaba"
               position="Head of Operations"
               bio="Expert in sustainable tourism and community development"
             />
             <TeamMember 
               image="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80"
-              name="Mike Johnson"
+              name="Jack Jackeys"
               position="Lead Guide"
               bio="Certified wilderness guide with extensive knowledge of local terrain"
             />
