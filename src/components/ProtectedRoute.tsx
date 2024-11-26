@@ -16,8 +16,4 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
   return <>{children}</>;
 }
 
-<<<<<<< HEAD
 export default ProtectedRoute;
-=======
-export default ProtectedRoute;
->>>>>>> 9c15c56387fc6ad0a2bbb367094caaa28346cc51
