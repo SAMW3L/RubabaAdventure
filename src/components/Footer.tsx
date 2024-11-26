@@ -5,15 +5,15 @@ import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react'
 function Footer() {
   return (
     <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-1 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Rubaba Adventures</h3>
-            <p className="text-gray-400 mb-4">
+            <h3 className="text-lg font-semibold mb-1">Rubaba Adventures</h3>
+            <p className="text-gray-400 mb-1">
               Your gateway to extraordinary outdoor experiences and adventures.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex space-x-1">
               <SocialLink href="#" icon={<Facebook className="h-5 w-5" />} />
               <SocialLink href="#" icon={<Twitter className="h-5 w-5" />} />
               <SocialLink href="#" icon={<Instagram className="h-5 w-5" />} />
@@ -22,7 +22,7 @@ function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-1">Quick Links</h3>
             <ul className="space-y-2">
               <FooterLink to="/adventures">Adventures</FooterLink>
               <FooterLink to="/accommodation">Accommodation</FooterLink>
@@ -33,7 +33,7 @@ function Footer() {
 
           {/* Services */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Services</h3>
+            <h3 className="text-lg font-semibold mb-1">Services</h3>
             <ul className="space-y-2">
               <FooterLink to="/adventures">Safari Tours</FooterLink>
               <FooterLink to="/hiking">Hiking Trips</FooterLink>
@@ -44,7 +44,7 @@ function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-lg font-semibold mb-1">Contact Us</h3>
             <ul className="space-y-2">
               <li className="flex items-center space-x-2">
                 <Phone className="h-5 w-5 text-green-500" />
@@ -62,14 +62,16 @@ function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-
-          <p>&copy; {new Date().getFullYear()} Rubaba Adventure. All rights reserved.</p>
-          <p> Designed by SAMUEL (0613004338)</p>
-
-        </div>
-      </div>
-    </footer>
+      <div className="border-t border-gray-800 mt-2 pt-9 text-center text-gray-400">
+         <p>&copy; {new Date().getFullYear()} Rubaba Adventure. All rights reserved.</p>
+         <p>
+          <a href="https://samw3l.github.io/portifolio/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+      Designed by SAMUEL(0613004338)
+        </a>
+         </p>
+  </div>
+</div>
+</footer>
   );
 }
 

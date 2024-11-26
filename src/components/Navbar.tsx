@@ -17,8 +17,8 @@ function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <Compass className="h-8 w-8 text-green-600" />
-              <span className="font-bold text-xl text-gray-800">RubabaAdventures</span>
+            <Compass className="h-8 w-8 text-green-600" />
+              <span className="font-bold text-xl text-green-800">RubabaAdventures</span>
             </Link>
           </div>
 
@@ -61,7 +61,7 @@ function Navbar() {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-500 hover:text-gray-600"
+              className="text-gray-500 hover:text-green-600"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
