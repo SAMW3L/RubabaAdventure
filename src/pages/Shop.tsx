@@ -1,58 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FilterBar } from '../components/FilterBar';
 import { ProductCard } from '../components/ProductCard';
+import { useData } from '../contexts/DataContext';
 
-interface Product {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  image: string;
-  category: string;
-}
-
-const SAMPLE_PRODUCTS: Product[] = [
-  {
-    id: '1',
-    title: 'Traditional Handwoven Basket',
-    description: 'Authentic handcrafted basket made by local artisans',
-    price: 49.99,
-    image: 'https://images.unsplash.com/photo-1595408076683-5d0a838a3f17?auto=format&fit=crop&q=80',
-    category: 'handicrafts'
-  },
-  {
-    id: '2',
-    title: 'Tribal Art Print',
-    description: 'Limited edition print featuring traditional tribal patterns',
-    price: 79.99,
-    image: 'https://images.unsplash.com/photo-1577083552431-6e5fd01988ec?auto=format&fit=crop&q=80',
-    category: 'art'
-  },
-  {
-    id: '3',
-    title: 'Local Spice Collection',
-    description: 'Set of authentic local spices and seasonings',
-    price: 34.99,
-    image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80',
-    category: 'food'
-  }
-];
 
 function Shop() {
-  const [products, setProducts] = useState<Product[]>(SAMPLE_PRODUCTS);
+  const { products, incrementViews } = useData();
+  const [filteredProducts, setFilteredProducts] = React.useState(products);
+
+  useEffect(() => {
+    setFilteredProducts(products.filter(p => p.status === 'active'));
+  }, [products]);
 
   const handleSearch = (term: string) => {
-    const filtered = SAMPLE_PRODUCTS.filter(product =>
-      product.title.toLowerCase().includes(term.toLowerCase()) ||
-      product.description.toLowerCase().includes(term.toLowerCase())
+    const filtered = products.filter(
+      product =>
+        product.status === 'active' &&
+        (product.title.toLowerCase().includes(term.toLowerCase()) ||
+          product.description.toLowerCase().includes(term.toLowerCase()))
     );
-    setProducts(filtered);
+    setFilteredProducts(filtered);
   };
 
   const handleFilter = (filters: any) => {
-    // Implement filtering logic
-    console.log('Applying filters:', filters);
+    let filtered = products.filter(p => p.status === 'active');
+
+    if (filters.priceRange) {
+      const [min, max] = filters.priceRange.split('-').map(Number);
+      filtered = filtered.filter(p => p.price >= min && p.price <= max);
+    }
+
+    setFilteredProducts(filtered);
   };
 
   return (
@@ -68,12 +47,16 @@ function Shop() {
         <FilterBar onSearch={handleSearch} onFilter={handleFilter} />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {filteredProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onView={() => incrementViews(product.id, 'product')}
+            />
           ))}
         </div>
 
-        {products.length === 0 && (
+        {filteredProducts.length === 0 && (
           <div className="text-center py-12">
             <p className="text-gray-600">No products found matching your criteria.</p>
           </div>

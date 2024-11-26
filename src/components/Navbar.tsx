@@ -26,6 +26,9 @@ function Navbar() {
           <div className="hidden md:flex items-center space-x-8">
             <NavLink to="/adventures">Adventures</NavLink>
             <NavLink to="/accommodation">Accommodation</NavLink>
+            <NavLink to="/services">Services</NavLink>
+            <NavLink to="/about">About</NavLink>
+            <NavLink to="/contact">Contact</NavLink>
             <NavLink to="/shop">Shop</NavLink>
             <NavLink to="/gallery">Gallery</NavLink>
             {isAuthenticated ? (
@@ -72,6 +75,10 @@ function Navbar() {
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <MobileNavLink to="/adventures">Adventures</MobileNavLink>
             <MobileNavLink to="/accommodation">Accommodation</MobileNavLink>
+            <MobileNavLink to="/services">Services</MobileNavLink>
+            <MobileNavLink to="/about">About</MobileNavLink>
+            <MobileNavLink to="/contact">Contact</MobileNavLink>
+            <MobileNavLink to="/shop">Shop</MobileNavLink>
             <MobileNavLink to="/shop">Shop</MobileNavLink>
             <MobileNavLink to="/gallery">Gallery</MobileNavLink>
             {isAuthenticated ? (

@@ -1,204 +1,289 @@
 import React, { useState } from 'react';
-import { Plus, PenSquare, Trash2, Eye, Upload } from 'lucide-react';
+import { 
+  Plus, 
+  PenSquare, 
+  Trash2, 
+  Eye, 
+  Upload, 
+  DollarSign, 
+  Calendar, 
+  Users,
+  Package,
+  Image
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-
-interface ListingItem {
-  id: string;
-  title: string;
-  type: 'product' | 'gallery';
-  status: 'active' | 'draft';
-  price?: number;
-  views: number;
-  date: string;
-}
+import { useData } from '../contexts/DataContext';
+import { ProductsTable } from '../components/ProductsTable';
+import { GalleryTable } from '../components/GalleryTable';
+import { AddItemModal } from '../components/AddItemModal';
+import toast from 'react-hot-toast';
 
 function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<'products' | 'gallery'>('products');
-  const { isAuthenticated } = useAuth();
+  const [activeTab, setActiveTab] = useState<'bookings' | 'products' | 'gallery' | 'adventures' | 'accommodations'>('bookings');
+  const { isAuthenticated, logout } = useAuth();
+  const { 
+    products, 
+    galleryItems, 
+    bookings, 
+    orders,
+    addProduct,
+    addGalleryItem,
+    deleteItem 
+  } = useData();
   const navigate = useNavigate();
   const [showAddModal, setShowAddModal] = useState(false);
-  const [listings] = useState<ListingItem[]>([
-    {
-      id: '1',
-      title: 'Traditional Craft',
-      type: 'product',
-      status: 'active',
-      price: 49.99,
-      views: 24,
-      date: '2024-03-15'
-    },
-    {
-      id: '2',
-      title: 'Cultural Festival',
-      type: 'gallery',
-      status: 'active',
-      views: 156,
-      date: '2024-03-14'
-    }
-  ]);
-
-  React.useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/admin/login');
-    }
-  }, [isAuthenticated, navigate]);
 
   const handleAddNew = () => {
     setShowAddModal(true);
   };
+
+  const handleDelete = async (id: string, type: string) => {
+    try {
+      await deleteItem(id, type);
+      toast.success('Item deleted successfully');
+    } catch (error) {
+      toast.error('Failed to delete item');
+    }
+  };
+
+  const renderBookings = () => (
+    <div className="overflow-x-auto">
+      <table className="min-w-full">
+        <thead>
+          <tr className="bg-gray-50">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Customer
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Type
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Date
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Amount
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Status
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {bookings.map((booking) => (
+            <tr key={booking.id}>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="text-sm font-medium text-gray-900">{booking.customerName}</div>
+                <div className="text-sm text-gray-500">{booking.email}</div>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                  {booking.type}
+                </span>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {booking.date}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                ${booking.amount}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                  booking.status === 'confirmed' 
+                    ? 'bg-green-100 text-green-800' 
+                    : 'bg-yellow-100 text-yellow-800'
+                }`}>
+                  {booking.status}
+                </span>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <button className="text-indigo-600 hover:text-indigo-900 mr-2">
+                  View
+                </button>
+                <button className="text-red-600 hover:text-red-900">
+                  Cancel
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+
+  const renderOrders = () => (
+    <div className="overflow-x-auto">
+      <table className="min-w-full">
+        <thead>
+          <tr className="bg-gray-50">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Order ID
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Customer
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Items
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Total
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Status
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {orders.map((order) => (
+            <tr key={order.id}>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                #{order.id}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="text-sm font-medium text-gray-900">{order.customerName}</div>
+                <div className="text-sm text-gray-500">{order.email}</div>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {order.items.length} items
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                ${order.total}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                  order.status === 'completed' 
+                    ? 'bg-green-100 text-green-800' 
+                    : 'bg-yellow-100 text-yellow-800'
+                }`}>
+                  {order.status}
+                </span>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <button className="text-indigo-600 hover:text-indigo-900">
+                  View Details
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 
   return (
     <div className="pt-16 min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-          <button 
-            onClick={handleAddNew}
-            className="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-colors flex items-center gap-2"
-          >
-            <Plus className="h-5 w-5" />
-            Add New Item
-          </button>
+          <div className="flex gap-4">
+            <button 
+              onClick={handleAddNew}
+              className="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-colors flex items-center gap-2"
+            >
+              <Plus className="h-5 w-5" />
+              Add New Item
+            </button>
+            <button
+              onClick={() => {
+                logout();
+                navigate('/admin/login');
+              }}
+              className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-colors"
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         <div className="bg-white rounded-lg shadow-md">
           <div className="border-b">
             <nav className="flex">
-              <button
-                className={`px-6 py-4 text-sm font-medium ${
-                  activeTab === 'products'
-                    ? 'border-b-2 border-green-600 text-green-600'
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
+              <TabButton
+                active={activeTab === 'bookings'}
+                onClick={() => setActiveTab('bookings')}
+                icon={<Calendar className="h-4 w-4" />}
+                label="Bookings"
+              />
+              <TabButton
+                active={activeTab === 'products'}
                 onClick={() => setActiveTab('products')}
-              >
-                Products
-              </button>
-              <button
-                className={`px-6 py-4 text-sm font-medium ${
-                  activeTab === 'gallery'
-                    ? 'border-b-2 border-green-600 text-green-600'
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
+                icon={<Package className="h-4 w-4" />}
+                label="Products"
+              />
+              <TabButton
+                active={activeTab === 'gallery'}
                 onClick={() => setActiveTab('gallery')}
-              >
-                Gallery
-              </button>
+                icon={<Image className="h-4 w-4" />}
+                label="Gallery"
+              />
             </nav>
           </div>
 
           <div className="p-6">
-            <table className="w-full">
-              <thead>
-                <tr className="text-left text-sm text-gray-500">
-                  <th className="pb-4">Title</th>
-                  <th className="pb-4">Status</th>
-                  {activeTab === 'products' && <th className="pb-4">Price</th>}
-                  <th className="pb-4">Views</th>
-                  <th className="pb-4">Date Added</th>
-                  <th className="pb-4">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {listings
-                  .filter((item) => 
-                    activeTab === 'products' 
-                      ? item.type === 'product' 
-                      : item.type === 'gallery'
-                  )
-                  .map((item) => (
-                    <tr key={item.id} className="border-t">
-                      <td className="py-4">{item.title}</td>
-                      <td className="py-4">
-                        <span className={`px-2 py-1 rounded-full text-xs ${
-                          item.status === 'active' 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-gray-100 text-gray-800'
-                        }`}>
-                          {item.status}
-                        </span>
-                      </td>
-                      {activeTab === 'products' && (
-                        <td className="py-4">${item.price?.toFixed(2)}</td>
-                      )}
-                      <td className="py-4">{item.views}</td>
-                      <td className="py-4">{item.date}</td>
-                      <td className="py-4">
-                        <div className="flex space-x-2">
-                          <button className="p-1 hover:text-green-600">
-                            <Eye className="h-4 w-4" />
-                          </button>
-                          <button className="p-1 hover:text-blue-600">
-                            <PenSquare className="h-4 w-4" />
-                          </button>
-                          <button className="p-1 hover:text-red-600">
-                            <Trash2 className="h-4 w-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+            {activeTab === 'bookings' && renderBookings()}
+            {activeTab === 'products' && (
+              <ProductsTable
+                products={products}
+                onDelete={(id) => handleDelete(id, 'product')}
+              />
+            )}
+            {activeTab === 'gallery' && (
+              <GalleryTable
+                items={galleryItems}
+                onDelete={(id) => handleDelete(id, 'gallery')}
+              />
+            )}
           </div>
         </div>
       </div>
 
-      {/* Add New Item Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <h2 className="text-2xl font-bold mb-4">Add New Item</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Type
-                </label>
-                <select className="w-full p-2 border rounded-md">
-                  <option value="product">Product</option>
-                  <option value="gallery">Gallery Item</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Title
-                </label>
-                <input type="text" className="w-full p-2 border rounded-md" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Description
-                </label>
-                <textarea className="w-full p-2 border rounded-md" rows={3} />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Media
-                </label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
-                  <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
-                  <p className="text-sm text-gray-500">
-                    Drop files here or click to upload
-                  </p>
-                </div>
-              </div>
-              <div className="flex justify-end space-x-2 mt-6">
-                <button
-                  onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 text-gray-600 hover:text-gray-800"
-                >
-                  Cancel
-                </button>
-                <button className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
-                  Add Item
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <AddItemModal
+          type={activeTab}
+          onClose={() => setShowAddModal(false)}
+          onAdd={async (data) => {
+            try {
+              if (activeTab === 'products') {
+                await addProduct(data);
+              } else if (activeTab === 'gallery') {
+                await addGalleryItem(data);
+              }
+              setShowAddModal(false);
+              toast.success('Item added successfully');
+            } catch (error) {
+              toast.error('Failed to add item');
+            }
+          }}
+        />
       )}
     </div>
+  );
+}
+
+function TabButton({ active, onClick, icon, label }: { 
+  active: boolean; 
+  onClick: () => void; 
+  icon: React.ReactNode;
+  label: string;
+}) {
+  return (
+    <button
+      className={`flex items-center gap-2 px-6 py-4 text-sm font-medium ${
+        active
+          ? 'border-b-2 border-green-600 text-green-600'
+          : 'text-gray-500 hover:text-gray-700'
+      }`}
+      onClick={onClick}
+    >
+      {icon}
+      {label}
+    </button>
   );
 }
 

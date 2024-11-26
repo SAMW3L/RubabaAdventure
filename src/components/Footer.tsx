@@ -35,10 +35,10 @@ function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Services</h3>
             <ul className="space-y-2">
-              <FooterLink to="/safari">Safari Tours</FooterLink>
+              <FooterLink to="/adventures">Safari Tours</FooterLink>
               <FooterLink to="/hiking">Hiking Trips</FooterLink>
               <FooterLink to="/camping">Camping</FooterLink>
-              <FooterLink to="/lodging">Luxury Lodging</FooterLink>
+              <FooterLink to="/accommodation">Luxury Lodging</FooterLink>
             </ul>
           </div>
 
@@ -63,7 +63,9 @@ function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Rubaba Adventure. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Rubaba Adventure. All rights reserved.
+          <p> Designed by SAMUEL (0613004338)</p> 
+          </p>
         </div>
       </div>
     </footer>
@@ -89,6 +91,7 @@ function FooterLink({ to, children }: { to: string; children: React.ReactNode })
       <Link
         to={to}
         className="text-gray-400 hover:text-white transition-colors"
+        onClick={() => window.scrollTo(0, 0)}
       >
         {children}
       </Link>
