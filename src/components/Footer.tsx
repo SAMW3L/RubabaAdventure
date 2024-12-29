@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Mail, Phone, MapPin, Linkedin } from 'lucide-react';
 
-function Footer() {
+const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-1 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
             <h3 className="text-lg font-semibold mb-1">Rubaba Adventures</h3>
@@ -17,6 +17,7 @@ function Footer() {
               <SocialLink href="#" icon={<Facebook className="h-5 w-5" />} />
               <SocialLink href="#" icon={<Twitter className="h-5 w-5" />} />
               <SocialLink href="#" icon={<Instagram className="h-5 w-5" />} />
+              <SocialLink href='#' icon={<Mail className="h-5 w-5" />} />
             </div>
           </div>
 
@@ -64,9 +65,8 @@ function Footer() {
 
       <div className="border-t border-gray-800 mt-2 pt-9 text-center text-gray-400">
          <p>&copy; {new Date().getFullYear()} Rubaba Adventure. All rights reserved.</p>
-         <p>
-          <a href="https://samw3l.github.io/portifolio/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-      Designed by SAMUEL(0613004338)
+         <p>Designed by <a href="https://samuel-portifolio-two.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+       SAMUEL(0613004338)
         </a>
          </p>
   </div>
