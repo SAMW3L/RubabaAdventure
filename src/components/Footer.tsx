@@ -66,7 +66,7 @@ const Footer = () => {
       <div className="border-t border-gray-800 mt-2 pt-9 text-center text-gray-400">
          <p>&copy; {new Date().getFullYear()} Rubaba Adventure. All rights reserved.</p>
          <p>
-          <a href="https://samw3l.github.io/portifolio/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+          <a href="https://samuel-portifolio-two.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
       Designed by SAMUEL(0613004338)
         </a>
          </p>
